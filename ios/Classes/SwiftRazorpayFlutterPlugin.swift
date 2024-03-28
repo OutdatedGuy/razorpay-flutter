@@ -2,10 +2,10 @@ import Flutter
 import Razorpay
 
 public class SwiftRazorpayFlutterPlugin: NSObject, FlutterPlugin {
-    
+
     private var razorpayDelegate = RazorpayDelegate()
     private static var CHANNEL_NAME = "razorpay_flutter";
-    
+
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: CHANNEL_NAME, binaryMessenger: registrar.messenger())
         let instance = SwiftRazorpayFlutterPlugin()
@@ -25,5 +25,4 @@ public class SwiftRazorpayFlutterPlugin: NSObject, FlutterPlugin {
             print("no method")
         }
     }
-    
 }

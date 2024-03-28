@@ -5,30 +5,30 @@ import 'dart:io' show Platform;
 
 class Razorpay {
   // Response codes from platform
-  static const _CODE_PAYMENT_SUCCESS = 0;
-  static const _CODE_PAYMENT_ERROR = 1;
-  static const _CODE_PAYMENT_EXTERNAL_WALLET = 2;
+  static const _codePaymentSuccess = 0;
+  static const _codePaymentError = 1;
+  static const _codePaymentExternalWallet = 2;
 
   // Event names
-  static const EVENT_PAYMENT_SUCCESS = 'payment.success';
-  static const EVENT_PAYMENT_ERROR = 'payment.error';
-  static const EVENT_EXTERNAL_WALLET = 'payment.external_wallet';
+  static const eventPaymentSuccess = 'payment.success';
+  static const eventPaymentError = 'payment.error';
+  static const eventExternalWallet = 'payment.external_wallet';
 
   // Payment error codes
-  static const NETWORK_ERROR = 0;
-  static const INVALID_OPTIONS = 1;
-  static const PAYMENT_CANCELLED = 2;
-  static const TLS_ERROR = 3;
-  static const INCOMPATIBLE_PLUGIN = 4;
-  static const UNKNOWN_ERROR = 100;
+  static const networkError = 0;
+  static const invalidOptions = 1;
+  static const paymentCancelled = 2;
+  static const tlsError = 3;
+  static const incompatiblePlugin = 4;
+  static const unknownError = 100;
 
-  static const MethodChannel _channel = const MethodChannel('razorpay_flutter');
+  static const MethodChannel _channel = MethodChannel('razorpay_flutter');
 
   // EventEmitter instance used for communication
   late EventEmitter _eventEmitter;
 
   Razorpay() {
-    _eventEmitter = new EventEmitter();
+    _eventEmitter = EventEmitter();
   }
 
   /// Opens Razorpay checkout
@@ -37,11 +37,11 @@ class Razorpay {
 
     if (!validationResult['success']) {
       _handleResult({
-        'type': _CODE_PAYMENT_ERROR,
+        'type': _codePaymentError,
         'data': {
-          'code': INVALID_OPTIONS,
-          'message': validationResult['message']
-        }
+          'code': invalidOptions,
+          'message': validationResult['message'],
+        },
       });
       return;
     }
@@ -62,25 +62,28 @@ class Razorpay {
     dynamic payload;
 
     switch (response['type']) {
-      case _CODE_PAYMENT_SUCCESS:
-        eventName = EVENT_PAYMENT_SUCCESS;
+      case _codePaymentSuccess:
+        eventName = eventPaymentSuccess;
         payload = PaymentSuccessResponse.fromMap(data!);
         break;
 
-      case _CODE_PAYMENT_ERROR:
-        eventName = EVENT_PAYMENT_ERROR;
+      case _codePaymentError:
+        eventName = eventPaymentError;
         payload = PaymentFailureResponse.fromMap(data!);
         break;
 
-      case _CODE_PAYMENT_EXTERNAL_WALLET:
-        eventName = EVENT_EXTERNAL_WALLET;
+      case _codePaymentExternalWallet:
+        eventName = eventExternalWallet;
         payload = ExternalWalletResponse.fromMap(data!);
         break;
 
       default:
         eventName = 'error';
         payload = PaymentFailureResponse(
-            UNKNOWN_ERROR, 'An unknown error occurred.', null);
+          unknownError,
+          'An unknown error occurred.',
+          null,
+        );
     }
 
     _eventEmitter.emit(eventName, null, payload);
@@ -88,9 +91,10 @@ class Razorpay {
 
   /// Registers event listeners for payment events
   void on(String event, Function handler) {
-    EventCallback cb = (event, cont) {
+    void cb(Event event, Object? cont) {
       handler(event.eventData);
-    };
+    }
+
     _eventEmitter.on(event, null, cb);
     _resync();
   }
@@ -114,7 +118,8 @@ class Razorpay {
     if (key == null) {
       return {
         'success': false,
-        'message': 'Key is required. Please check if key is present in options.'
+        'message':
+            'Key is required. Please check if key is present in options.',
       };
     }
     return {'success': true};
@@ -122,44 +127,57 @@ class Razorpay {
 }
 
 class PaymentSuccessResponse {
-  String? paymentId;
-  String? orderId;
-  String? signature;
-  Map<dynamic, dynamic>? data;
+  final String? paymentId;
+  final String? orderId;
+  final String? signature;
+  final Map<dynamic, dynamic>? data;
 
-  PaymentSuccessResponse(this.paymentId, this.orderId, this.signature, this.data);
+  PaymentSuccessResponse(
+    this.paymentId,
+    this.orderId,
+    this.signature,
+    this.data,
+  );
 
   static PaymentSuccessResponse fromMap(Map<dynamic, dynamic> map) {
-    String? paymentId = map["razorpay_payment_id"];
-    String? signature = map["razorpay_signature"];
-    String? orderId = map["razorpay_order_id"];
-    Map<dynamic, dynamic> data = map;
-    return new PaymentSuccessResponse(paymentId, orderId, signature, data);
+    final String? paymentId = map["razorpay_payment_id"];
+    final String? signature = map["razorpay_signature"];
+    final String? orderId = map["razorpay_order_id"];
+
+    final Map<dynamic, dynamic> data = map;
+
+    return PaymentSuccessResponse(paymentId, orderId, signature, data);
   }
 }
 
 class PaymentFailureResponse {
-  int? code;
-  String? message;
-  Map<dynamic, dynamic>? error;
+  final int? code;
+  final String? message;
+  final Map<dynamic, dynamic>? error;
 
   PaymentFailureResponse(this.code, this.message, this.error);
 
   static PaymentFailureResponse fromMap(Map<dynamic, dynamic> map) {
-    var code = map["code"] as int?;
-    var message = map["message"] as String?;
-    var responseBody = map["responseBody"] as Map<dynamic, dynamic>?;
-    return new PaymentFailureResponse(code, message, responseBody);
+    final int? code = map["code"];
+    final String? message = map["message"];
+    final dynamic responseBody = map["responseBody"];
+
+    if (responseBody is Map<dynamic, dynamic>) {
+      return PaymentFailureResponse(code, message, responseBody);
+    } else {
+      final errorMap = {"reason": responseBody};
+      return PaymentFailureResponse(code, message, errorMap);
+    }
   }
 }
 
 class ExternalWalletResponse {
-  String? walletName;
+  final String? walletName;
 
   ExternalWalletResponse(this.walletName);
 
   static ExternalWalletResponse fromMap(Map<dynamic, dynamic> map) {
-    var walletName = map["external_wallet"] as String?;
-    return new ExternalWalletResponse(walletName);
+    final String? walletName = map["external_wallet"];
+    return ExternalWalletResponse(walletName);
   }
 }
