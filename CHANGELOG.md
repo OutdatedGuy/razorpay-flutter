@@ -1,3 +1,7 @@
+## 1.3.6
+
+- Merged razorpay_subscription_id data inside variable data of type Map<dynamic, dynamic> in PaymentSuccessResponse
+
 ## 1.3.5
 
 - Update package_info_plus to 4.0.0 to support 3.10.1 flutter version

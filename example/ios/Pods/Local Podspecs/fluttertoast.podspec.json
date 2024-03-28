@@ -24,13 +24,14 @@
     ]
   },
   "pod_target_xcconfig": {
-    "DEFINES_MODULE": "YES",
-    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "i386"
+    "VALID_ARCHS": "x86_64 armv7 arm64",
+    "DEFINES_MODULE": "YES"
   },
   "platforms": {
     "osx": null,
     "ios": null,
     "tvos": null,
+    "visionos": null,
     "watchos": null
   }
 }
