@@ -56,6 +56,7 @@ public class RazorpayFlutterPlugin
    */
   private RazorpayFlutterPlugin(Registrar registrar) {
     this.razorpayDelegate = new RazorpayDelegate(registrar.activity());
+    this.razorpayDelegate.setPackageName(registrar.activity().getPackageName());
     registrar.addActivityResultListener(razorpayDelegate);
   }
 
@@ -69,9 +70,6 @@ public class RazorpayFlutterPlugin
           result
         );
         break;
-      case "setPackageName":
-        razorpayDelegate.setPackageName((String) call.arguments);
-        break;
       case "resync":
         razorpayDelegate.resync(result);
         break;
@@ -84,6 +82,7 @@ public class RazorpayFlutterPlugin
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
     this.razorpayDelegate = new RazorpayDelegate(binding.getActivity());
     this.pluginBinding = binding;
+    razorpayDelegate.setPackageName(binding.getActivity().getPackageName());
     binding.addActivityResultListener(razorpayDelegate);
   }
 
