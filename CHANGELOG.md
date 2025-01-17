@@ -1,3 +1,8 @@
+## 1.3.7
+
+- Removed package_info_plus dependency
+- Added namespace in build.gradle
+
 ## 1.3.6
 
 - Merged razorpay_subscription_id data inside variable data of type Map<dynamic, dynamic> in PaymentSuccessResponse
