@@ -13,7 +13,6 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /**
  * RazorpayFlutterPlugin
@@ -27,17 +26,6 @@ public class RazorpayFlutterPlugin
 
   public RazorpayFlutterPlugin() {}
 
-  /**
-   * Plugin registration for Flutter version < 1.12
-   */
-  public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(
-      registrar.messenger(),
-      CHANNEL_NAME
-    );
-    channel.setMethodCallHandler(new RazorpayFlutterPlugin(registrar));
-  }
-
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
     final MethodChannel channel = new MethodChannel(
@@ -49,16 +37,6 @@ public class RazorpayFlutterPlugin
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {}
-
-  /**
-   * Constructor for Flutter version < 1.12
-   * @param registrar
-   */
-  private RazorpayFlutterPlugin(Registrar registrar) {
-    this.razorpayDelegate = new RazorpayDelegate(registrar.activity());
-    this.razorpayDelegate.setPackageName(registrar.activity().getPackageName());
-    registrar.addActivityResultListener(razorpayDelegate);
-  }
 
   @Override
   @SuppressWarnings("unchecked")
