@@ -2,12 +2,10 @@ PODS:
   - Flutter (1.0.0)
   - fluttertoast (0.0.2):
     - Flutter
-    - Toast
-  - razorpay-pod (1.3.14)
+  - razorpay-pod (1.4.0)
   - razorpay_flutter (1.1.10):
     - Flutter
     - razorpay-pod
-  - Toast (4.1.1)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -17,7 +15,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - razorpay-pod
-    - Toast
 
 EXTERNAL SOURCES:
   Flutter:
@@ -29,10 +26,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  fluttertoast: e9a18c7be5413da53898f660530c56f35edfba9c
-  razorpay-pod: ffee2198928e2a5ed2556863af4db6b79722cea3
-  razorpay_flutter: b382407f50c9a23c5b6e7fdac3358f31df916fe7
-  Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
+  fluttertoast: 2c67e14dce98bbdb200df9e1acf610d7a6264ea1
+  razorpay-pod: cb5b5439697bdda9c57d68a92b3e5b0ce1d2f2f3
+  razorpay_flutter: 80c6ad04b5172c20a4b43bd4a580347c85723155
 
 PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011
 

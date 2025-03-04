@@ -12,9 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Razorpay Flutter Sample App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(title: 'Razorpay Flutter Sample App'),
     );
   }
@@ -33,16 +31,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(title: Text(widget.title)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Pay with Razorpay',
-            ),
+            const Text('Pay with Razorpay'),
             ElevatedButton(
               onPressed: () {
                 var options = {
@@ -62,10 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 };
 
                 Razorpay()
-                  ..on(
-                    Razorpay.eventPaymentError,
-                    handlePaymentErrorResponse,
-                  )
+                  ..on(Razorpay.eventPaymentError, handlePaymentErrorResponse)
                   ..on(
                     Razorpay.eventPaymentSuccess,
                     handlePaymentSuccessResponse,
