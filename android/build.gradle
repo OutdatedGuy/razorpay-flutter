@@ -2,6 +2,7 @@ group = "com.razorpay.razorpay_flutter"
 version = "1.1.4"
 
 buildscript {
+    ext.kotlin_version = "1.8.22"
     repositories {
         google()
         mavenCentral()
@@ -9,10 +10,11 @@ buildscript {
 
     dependencies {
         classpath("com.android.tools.build:gradle:8.7.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
 
-rootProject.allprojects {
+allprojects {
     repositories {
         google()
         mavenCentral()
@@ -20,6 +22,7 @@ rootProject.allprojects {
 }
 
 apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
 
 android {
     namespace = "com.razorpay.razorpay_flutter"
@@ -31,12 +34,21 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
+
     defaultConfig {
         minSdk = 21
         consumerProguardFiles("consumer-proguard-rules.pro")
     }
 
     dependencies {
-        api 'com.razorpay:checkout:1.6.+'
+        implementation('com.razorpay:checkout:1.6.+')
     }
 }

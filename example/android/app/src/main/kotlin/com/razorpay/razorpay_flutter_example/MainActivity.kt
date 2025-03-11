@@ -2,4 +2,4 @@ package com.razorpay.razorpay_flutter_example
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity()
+class MainActivity : FlutterActivity()
