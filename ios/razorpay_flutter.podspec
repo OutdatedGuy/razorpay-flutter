@@ -14,7 +14,6 @@ Flutter plugin for Razorpay SDK. To know more about Razorpay, visit https://razo
   s.author           = { 'Chintan Acharya' => 'chintan.acharya@razorpay.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'razorpay-pod'
   s.platform = :ios, '12.0'

@@ -1,14 +1,14 @@
 import Flutter
 import Razorpay
 
-public class SwiftRazorpayFlutterPlugin: NSObject, FlutterPlugin {
+public class RazorpayFlutterPlugin: NSObject, FlutterPlugin {
 
     private var razorpayDelegate = RazorpayDelegate()
     private static var CHANNEL_NAME = "razorpay_flutter";
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: CHANNEL_NAME, binaryMessenger: registrar.messenger())
-        let instance = SwiftRazorpayFlutterPlugin()
+        let instance = RazorpayFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
 
