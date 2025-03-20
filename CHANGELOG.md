@@ -1,3 +1,7 @@
+## 1.4.0
+
+- Removed mention of Registrar class in the plugin to fix Registrar not found issue.
+
 ## 1.3.7
 
 - Removed package_info_plus dependency
