@@ -20,7 +20,7 @@ class Razorpay {
   static const incompatiblePlugin = 4;
   static const unknownError = 100;
 
-  static const MethodChannel _channel = MethodChannel('razorpay_flutter');
+  static const _channel = MethodChannel('razorpay_flutter');
 
   // EventEmitter instance used for communication
   late EventEmitter _eventEmitter;
@@ -133,7 +133,7 @@ class PaymentSuccessResponse {
     this.data,
   );
 
-  static PaymentSuccessResponse fromMap(Map<dynamic, dynamic> map) {
+  factory PaymentSuccessResponse.fromMap(Map<dynamic, dynamic> map) {
     final String? paymentId = map["razorpay_payment_id"];
     final String? signature = map["razorpay_signature"];
     final String? orderId = map["razorpay_order_id"];
@@ -151,7 +151,7 @@ class PaymentFailureResponse {
 
   PaymentFailureResponse(this.code, this.message, this.error);
 
-  static PaymentFailureResponse fromMap(Map<dynamic, dynamic> map) {
+  factory PaymentFailureResponse.fromMap(Map<dynamic, dynamic> map) {
     final int? code = map["code"];
     final String? message = map["message"];
     final dynamic responseBody = map["responseBody"];
@@ -170,7 +170,7 @@ class ExternalWalletResponse {
 
   ExternalWalletResponse(this.walletName);
 
-  static ExternalWalletResponse fromMap(Map<dynamic, dynamic> map) {
+  factory ExternalWalletResponse.fromMap(Map<dynamic, dynamic> map) {
     final String? walletName = map["external_wallet"];
     return ExternalWalletResponse(walletName);
   }
