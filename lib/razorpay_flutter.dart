@@ -152,7 +152,7 @@ class PaymentFailureResponse {
   PaymentFailureResponse(this.code, this.message, this.error);
 
   factory PaymentFailureResponse.fromMap(Map<dynamic, dynamic> map) {
-    final int? code = map["code"];
+    final int? code = map["code"]?.toInt();
     final String? message = map["message"];
     final dynamic responseBody = map["responseBody"];
 
