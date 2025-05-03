@@ -11,6 +11,9 @@ dependencies:
   eventify: ^1.0.1
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  web: ^1.1.1
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -39,6 +42,9 @@ flutter:
         pluginClass: RazorpayFlutterPlugin
       ios:
         pluginClass: RazorpayFlutterPlugin
+      web:
+        pluginClass: RazorpayFlutterWeb
+        fileName: razorpay_flutter_web.dart
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
