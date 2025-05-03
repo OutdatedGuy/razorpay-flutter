@@ -79,22 +79,27 @@ class RazorpayDelegate(private val activity: Activity) :
         val data = mutableMapOf<String, Any>("code" to translateRzpPaymentError(code))
         try {
             val response = JSONObject(message)
+            response.getJSONObject("error")?.remove("metadata")
+
+            if (response.getJSONObject("error")?.getString("description") == "undefined") {
+                response.getJSONObject("error")?.put("description", "Payment processing cancelled by user")
+            }
+
             val errorObj = response.getJSONObject("error")
             data["message"] = errorObj.getString("description")
-            val metadata = errorObj.getJSONObject("metadata")
-            val metadataHash = mutableMapOf<String, String>()
-            for (key in metadata.keys()) {
-                metadataHash[key] = metadata.getString(key)
-            }
-            errorObj.remove("metadata")
-            val resp = mutableMapOf<String, Any>()
+
+            val errorMap = mutableMapOf<String, Any>()
             for (key in errorObj.keys()) {
-                resp[key] = errorObj.get(key)
+                errorMap[key] = errorObj.get(key)
             }
-            resp["metadata"] = metadataHash
-            resp["email"] = paymentData.userEmail ?: ""
-            resp["contact"] = paymentData.userContact ?: ""
-            data["responseBody"] = resp
+
+            val responseBody = mutableMapOf<String, Any>()
+            responseBody["error"] = errorMap
+            responseBody["name"] = ""
+            responseBody["email"] = paymentData.userEmail ?: ""
+            responseBody["contact"] = paymentData.userContact ?: ""
+
+            data["responseBody"] = responseBody
         } catch (e: JSONException) {
             data["message"] = message
             data["responseBody"] = message
