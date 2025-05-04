@@ -6,19 +6,24 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 import 'package:web/web.dart';
 
-/// JS interop for Razorpay
+/// A JS interop class for Razorpay
 @JS('Razorpay')
-external JSRazorpay _razorpayFactory(JSAny options);
-
-@JS()
 @staticInterop
-class JSRazorpay {}
+class JSRazorpay {
+  /// Constructor for Razorpay
+  external factory JSRazorpay(JSAny options);
+}
 
+/// A utility extension to define the JS methods for Razorpay
 extension JSRazorpayExt on JSRazorpay {
+  /// This method is used to set the event handlers for Razorpay
   external void on(String event, JSFunction handler);
+
+  /// This method is used to open the Razorpay checkout modal
   external void open();
 }
 
+/// This class is used to handle Razorpay payment processing on the web.
 class RazorpayFlutterWeb {
   // Response codes from platform
   static const _codePaymentSuccess = 0;
@@ -94,13 +99,13 @@ class RazorpayFlutterWeb {
       script.crossOrigin = 'anonymous';
       script.addEventListener(
         'load',
-        (JSAny? event) {
+        (Event event) {
           _launchRazorpay(options, completer, returnMap, dataMap);
         }.toJS,
       );
       script.addEventListener(
         'error',
-        (JSAny? event) {
+        (Event event) {
           if (!completer.isCompleted) {
             returnMap['type'] = _codePaymentError;
             dataMap['code'] = networkError;
@@ -175,7 +180,7 @@ class RazorpayFlutterWeb {
     }.toJS;
 
     final jsOptions = options.jsify();
-    final razorpay = _razorpayFactory(jsOptions!);
+    final razorpay = JSRazorpay(jsOptions!);
 
     // Payment failed handler
     razorpay.on(
