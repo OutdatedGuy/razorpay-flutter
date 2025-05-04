@@ -91,6 +91,7 @@ class RazorpayFlutterWeb {
       final script = document.createElement('script') as HTMLScriptElement;
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.async = true;
+      script.crossOrigin = 'anonymous';
       script.addEventListener(
         'load',
         (JSAny? event) {
